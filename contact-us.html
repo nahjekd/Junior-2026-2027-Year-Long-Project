@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Paleontology in Kentucky</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="banner" style="background-image: linear-gradient(rgba(4,9,30,0.7), rgba(4,9,30,0.7)), url('https://snipboard.io/7YPsed.jpg');">
+    <div class="banner-text">
+      <h1>Contact Us</h1>
+      <p>Tell us about sites you want us to explore or of any mistakes we may have made!</p>
+    </div>
+  </div>
+
+  <nav class="navbar">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about-us.html">About</a></li>
+      <li><a href="species.html">Species</a></li>
+      <li><a href="big-bones.html">Big Bones</a></li>
+      <li><a href="contact-us.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="layout">
+    <main class="content">
+      <section>
+        <h1>Contact Information</h1>
+        <p>Business Email: <a href="mailto:kypaleo@outlook.com">Kypaleo@outlook.com</a></p>
+        <p>Joey Seibel: Phone #</p>
+        <p>Nahje Dupree: Phone #</p>
+      </section>
+
+      <section>
+        <h2>Send us a Message</h2>
+        <div id="form-status"></div>
+        <form id="contact-form" action="https://formspree.io/f/xlgaljvl" method="POST">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required>
+
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+
+          <label for="message">Message:</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+
+          <button type="submit" id="submit-btn">Send Message</button>
+        </form>
+      </section>
+
+  <script>
+    const form = document.getElementById('contact-form');
+    const statusDiv = document.getElementById('form-status');
+    const submitBtn = document.getElementById('submit-btn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Clear previous messages
+      statusDiv.textContent = '';
+      statusDiv.className = '';
+      
+      // Disable button and show loading state
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          statusDiv.textContent = 'Message sent successfully! We\'ll get back to you soon.';
+          statusDiv.className = 'form-success';
+          form.reset();
+        } else {
+          statusDiv.textContent = 'Something went wrong. Please try again.';
+          statusDiv.className = 'form-error';
+        }
+      } catch (error) {
+        statusDiv.textContent = 'Error sending message. Please try again later.';
+        statusDiv.className = 'form-error';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Message';
+      }
+    });
+  </script>
+    </main>
+  </div>
+</body>
+</html>
